@@ -5,11 +5,11 @@ import {
   TextField,
   Button,
   Typography,
-  Link,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router-dom";
 const Login = () => {
   const paperStyle = {
     padding: 20,
@@ -59,7 +59,7 @@ const Login = () => {
         </Typography>
         <Typography>
           {" "}
-          Do you have an account ?<Link href="#">Sign Up</Link>
+          Do you have an account ?<Link to="/register">Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>

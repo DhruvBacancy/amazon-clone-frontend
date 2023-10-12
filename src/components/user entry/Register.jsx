@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "../../align.css";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const paperStyle = { padding: "30px 20px", width: 300, margin: "20px auto" };
@@ -80,19 +81,24 @@ const Register = () => {
             </Button>
           </div>
           <br />
-          <div>
+          <div className="button-parent">
             <div className="align-left">
               <Button type="submit" variant="contained" color="primary">
                 Sign up
               </Button>
-              <div className="align-right">
-                <Button type="submit" variant="contained" color="primary">
-                  Back
-                </Button>
-              </div>
+            </div>
+            <div className="align-right">
+              <Button type="submit" variant="contained" color="primary">
+                Back
+              </Button>
             </div>
           </div>
         </form>
+        <br />
+        <Typography>
+          Already have an account?
+          <Link to="/login">Login in</Link>
+        </Typography>
       </Paper>
     </Grid>
   );
