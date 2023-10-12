@@ -42,28 +42,33 @@ const Register = () => {
             label="First Name"
             placeholder="Enter your first name"
             required
+            variant="standard"
           />
           <TextField
             fullWidth
             label="Last Name"
             placeholder="Enter your last name"
+            variant="standard"
           />
           <TextField
             fullWidth
             label="Email"
             placeholder="Enter your email"
+            variant="standard"
             required
           />
           <TextField
             fullWidth
             label="Password"
             placeholder="Enter your password"
+            variant="standard"
             required
           />
           <TextField
             fullWidth
             label="Confirm Password"
             placeholder="Confirm your password"
+            variant="standard"
             required
           />
           <FormControlLabel

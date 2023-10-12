@@ -32,12 +32,14 @@ const Login = () => {
           label="Username"
           placeholder="Enter username"
           fullWidth
+          variant="standard"
           required
         />
         <TextField
           label="Password"
           placeholder="Enter password"
           type="password"
+          variant="standard"
           fullWidth
           required
         />
