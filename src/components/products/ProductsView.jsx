@@ -1,33 +1,54 @@
-import Button from "@mui/material/Button";
-import React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
+import { Button, Card, Container, Grid, Typography } from "@mui/material";
+import data from "./productData";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea } from "@mui/material";
+import "../../align.css";
 
 const ProductsView = () => {
-    return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          Hi
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+  return (
+    <Container maxWidth="lg">
+      <Typography variant="h4" align="center" style={{ marginTop: "50px" }}>
+        Responsive Card
+      </Typography>
+      <Grid container spacing={5} style={{ marginTop: "20px" }}>
+        {data.map((result, index) => (
+          <Grid item xs={12} sm={4} ms={4} key={index}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              style={{ padding: "10xp", marginBottom: "30px" }}
+            >
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={result.images[0]}
+                  alt="green iguana"
+                  style={{ borderRadius: "5px" }}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Lizard
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Lizards are a widespread group of squamate reptiles, with
+                    over 6,000 species, ranging across all continents except
+                    Antarctica
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActionArea>
+                <div className="align-center">
+                  <Button size="medium" variant="contained">
+                    View Details
+                  </Button>
+                </div>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 };
 

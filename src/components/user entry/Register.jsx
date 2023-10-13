@@ -93,11 +93,11 @@ const Register = () => {
             variant="standard"
             {...register("email")}
           />
-            {errors.email && (
-              <InputLabel sx={{ color: "error.main" }}>
-                {errors.email?.message}
-              </InputLabel>
-            )}
+          {errors.email && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.email?.message}
+            </InputLabel>
+          )}
           <TextField
             name="password"
             fullWidth

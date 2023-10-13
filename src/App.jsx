@@ -1,11 +1,9 @@
-import ProductsView from "./components/products/ProductsView";
-import Router from "./router/router"
+import Router from "./router/router";
 
 function App() {
   return (
     <>
-    <Router/>
-    <ProductsView/>
+      <Router />
     </>
   );
 }
