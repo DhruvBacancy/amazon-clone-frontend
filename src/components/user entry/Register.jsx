@@ -1,5 +1,12 @@
 import React from "react";
-import { Avatar, Grid, Paper, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Grid,
+  Paper,
+  TextField,
+  InputLabel,
+  Typography,
+} from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -7,9 +14,19 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "../../align.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { userSchema } from "../../validations/userRegistration";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Register = () => {
+  const intialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  };
+  const navigate = useNavigate();
   const paperStyle = { padding: "30px 20px", width: 300, margin: "20px auto" };
   const headerStyle = { margin: 0 };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
@@ -24,6 +41,14 @@ const Register = () => {
     whiteSpace: "nowrap",
     width: 1,
   });
+
+  const formOptions = { resolver: yupResolver(userSchema) };
+  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <Grid>
       <Paper elevation={20} style={paperStyle}>
@@ -36,45 +61,60 @@ const Register = () => {
             Please fill this form to create an account !
           </Typography>
         </Grid>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
+            name="firstName"
             fullWidth
-            label="First Name"
+            label="First Name*"
             placeholder="Enter your first name"
-            required
             variant="standard"
+            {...register("firstName")}
           />
+          {errors.firstName && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.firstName?.message}
+            </InputLabel>
+          )}
           <TextField
+            name="lastName"
             fullWidth
             label="Last Name"
             placeholder="Enter your last name"
             variant="standard"
           />
+          {errors.lastName && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.lastName?.message}
+            </InputLabel>
+          )}
           <TextField
+            name="email"
             fullWidth
-            label="Email"
+            label="Email*"
             placeholder="Enter your email"
             variant="standard"
-            required
+            {...register("email")}
           />
+          {errors.email && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.email?.message}
+            </InputLabel>
+          )}
           <TextField
+            name="password"
             fullWidth
-            label="Password"
+            label="Password*"
             placeholder="Enter your password"
             variant="standard"
-            required
+            margin="dense"
+            {...register("password")}
           />
-          <TextField
-            fullWidth
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            variant="standard"
-            required
-          />
-          <FormControlLabel
-            control={<Checkbox name="checkedA" />}
-            label="I accept the terms and conditions."
-          />
+          {errors.password && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.password?.message}
+            </InputLabel>
+          )}
+
           <div className="align-center">
             <Button
               component="label"
@@ -93,7 +133,14 @@ const Register = () => {
               </Button>
             </div>
             <div className="align-right">
-              <Button type="submit" variant="contained" color="primary">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
                 Back
               </Button>
             </div>
@@ -110,3 +157,10 @@ const Register = () => {
 };
 
 export default Register;
+
+{
+  /* <FormControlLabel
+          control={<Checkbox name="termsAndConditions" />}
+          label="I accept the terms and conditions."
+        /> */
+}
