@@ -4,12 +4,15 @@ import {
   Avatar,
   TextField,
   Button,
+  InputLabel,
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginSchema } from "../../validations/UserSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+
 const Login = () => {
   const paperStyle = {
     padding: 20,
@@ -19,6 +22,15 @@ const Login = () => {
   };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
   const btnstyle = { margin: "8px 0" };
+  const navigate = useNavigate();
+
+  const formOptions = { resolver: yupResolver(loginSchema) };
+  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <Grid>
       <Paper elevation={10} style={paperStyle}>
@@ -28,37 +40,53 @@ const Login = () => {
           </Avatar>
           <h2>Sign In</h2>
         </Grid>
-        <TextField
-          label="Username"
-          placeholder="Enter username"
-          fullWidth
-          variant="standard"
-          required
-        />
-        <TextField
-          label="Password"
-          placeholder="Enter password"
-          type="password"
-          variant="standard"
-          fullWidth
-          required
-        />
-        <FormControlLabel
-          control={<Checkbox name="checkedB" color="primary" />}
-          label="Remember me"
-        />
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          style={btnstyle}
-          fullWidth
-        >
-          Sign in
-        </Button>
-        <Typography>
-          <Link href="#">Forgot password ?</Link>
-        </Typography>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="Email*"
+            placeholder="Enter email*"
+            fullWidth
+            variant="standard"
+            {...register("email")}
+          />
+          {errors.email && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.email?.message}
+            </InputLabel>
+          )}
+          <TextField
+            label="Password*"
+            placeholder="Enter password*"
+            type="password"
+            variant="standard"
+            fullWidth
+            {...register("password")}
+          />
+          {errors.password && (
+            <InputLabel sx={{ color: "error.main" }}>
+              {errors.password?.message}
+            </InputLabel>
+          )}
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            style={btnstyle}
+            fullWidth
+          >
+            Sign in
+          </Button>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Back To Home
+          </Button>
+        </form>
         <Typography>
           {" "}
           Do you have an account ?<Link to="/register">Sign Up</Link>

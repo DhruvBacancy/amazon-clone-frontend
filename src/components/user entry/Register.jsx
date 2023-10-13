@@ -8,14 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "../../align.css";
 import { Link, useNavigate } from "react-router-dom";
-import { userSchema } from "../../validations/userRegistration";
+import { userSchema } from "../../validations/UserSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -95,11 +93,11 @@ const Register = () => {
             variant="standard"
             {...register("email")}
           />
-          {errors.email && (
-            <InputLabel sx={{ color: "error.main" }}>
-              {errors.email?.message}
-            </InputLabel>
-          )}
+            {errors.email && (
+              <InputLabel sx={{ color: "error.main" }}>
+                {errors.email?.message}
+              </InputLabel>
+            )}
           <TextField
             name="password"
             fullWidth
@@ -157,10 +155,3 @@ const Register = () => {
 };
 
 export default Register;
-
-{
-  /* <FormControlLabel
-          control={<Checkbox name="termsAndConditions" />}
-          label="I accept the terms and conditions."
-        /> */
-}
