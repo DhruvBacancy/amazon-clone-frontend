@@ -16,3 +16,8 @@
   display: flex;
   justify-content: center !important;
 }
+
+.a {
+  text-decoration: none;
+  color: white;
+}

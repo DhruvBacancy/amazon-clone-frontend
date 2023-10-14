@@ -37,7 +37,7 @@ const ProductsView = () => {
                   </Typography>
                 </CardContent>
               </CardActionArea>
-              <CardActionArea>
+              <CardActionArea sx={{ mb: 2 }}>
                 <div className="align-center">
                   <Button size="medium" variant="contained">
                     View Details

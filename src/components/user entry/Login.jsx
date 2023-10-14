@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../validations/UserSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const Login = () => {
   const paperStyle = {
@@ -29,7 +30,14 @@ const Login = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
+    axios
+      .post("api/auth/login", {
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        console.log(response.data.token);
+      });
   };
   return (
     <Grid>
