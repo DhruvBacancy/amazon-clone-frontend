@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 
 const intitalState = { token: null };
 
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
 };
 
 export const AuthContextExport = () => {
-  const contextValue = AuthContext;
+  const contextValue = useContext(AuthContext);
   return contextValue;
 };
 

@@ -15,11 +15,14 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Link, NavLink } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "../align.css";
-
-const pages = ["home", "products", "register", "login"];
-const settings = ["Dashboard", "Logout"];
+import { AuthContextExport } from "../util/context/AuthContext";
 
 function NavigationBar() {
+  const { token } = AuthContextExport();
+  const pages = token
+    ? ["home", "products"]
+    : ["home", "products", "register", "login"];
+  const settings = token ? ["dashboard", "logout"] : ["register", "login"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
