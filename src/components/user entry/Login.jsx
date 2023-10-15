@@ -35,8 +35,8 @@ const Login = () => {
         email: data.email,
         password: data.password,
       })
-      .then((response) => {
-        console.log(response.data.token);
+      .then((res) => {
+        localStorage.setItem("token", res?.data?.data.token || "");
       });
   };
   return (
