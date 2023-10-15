@@ -58,7 +58,7 @@ const Register = () => {
         },
       })
       .then(() => {
-       navigate('/home')
+       navigate('/login')
       })
       .catch((error) => {
         console.error("Error:", error);

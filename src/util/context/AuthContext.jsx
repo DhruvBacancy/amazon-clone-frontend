@@ -37,3 +37,5 @@ export const AuthContextExport = () => {
   const contextValue = AuthContext;
   return contextValue;
 };
+
+export default AuthProvider;

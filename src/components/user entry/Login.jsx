@@ -13,8 +13,10 @@ import { loginSchema } from "../../validations/UserSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { AuthContextExport } from "../../util/context/AuthContext";
 
 const Login = () => {
+  const { token, login, logout } = AuthContextExport();
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -31,12 +33,18 @@ const Login = () => {
 
   const onSubmit = (data) => {
     axios
-      .post("api/auth/login", {
+      .post("http://localhost:3000/api/auth/login", {
         email: data.email,
         password: data.password,
       })
       .then((res) => {
-        localStorage.setItem("token", res?.data?.data.token || "");
+        if (res.data.token) {
+          localStorage.setItem("token", res?.data?.token || "");
+          setTimeout(() => {
+            login(res.data.token);
+            navigate("/");
+          }, 1000);
+        }
       });
   };
   return (
