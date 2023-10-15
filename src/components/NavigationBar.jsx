@@ -12,11 +12,12 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "../align.css";
 
 const pages = ["home", "products", "register", "login"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 function NavigationBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,7 +43,7 @@ function NavigationBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <NavLink to={"./"} className={'a'}>
+          <NavLink to={"./"} className={"a"}>
             <Typography
               variant="h6"
               noWrap
@@ -92,7 +93,7 @@ function NavigationBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <NavLink to={`/${page}`} key={page} className={'a'}>
+                  <NavLink to={`/${page}`} key={page} className={"a"}>
                     <Typography textAlign="center">{page}</Typography>
                   </NavLink>
                 </MenuItem>
@@ -131,6 +132,9 @@ function NavigationBar() {
               </NavLink>
             ))}
           </Box>
+          <Link to="/cart" className="a">
+            <ShoppingCartIcon />
+          </Link>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -155,7 +159,9 @@ function NavigationBar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <NavLink to={`/${setting}`} key={setting} className={"b"}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </NavLink>
                 </MenuItem>
               ))}
             </Menu>

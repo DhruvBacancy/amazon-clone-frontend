@@ -10,12 +10,12 @@ import {
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "../../align.css";
 import { Link, useNavigate } from "react-router-dom";
 import { userSchema } from "../../validations/UserSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 
 const Register = () => {
   const intialValues = {
@@ -45,7 +45,24 @@ const Register = () => {
   const { errors } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append("profilePicture", "");
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    axios
+      .post("http://localhost:3000/api/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+       navigate('/home')
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
   return (
     <Grid>
@@ -79,6 +96,7 @@ const Register = () => {
             label="Last Name"
             placeholder="Enter your last name"
             variant="standard"
+            {...register("lastName")}
           />
           {errors.lastName && (
             <InputLabel sx={{ color: "error.main" }}>
@@ -113,16 +131,6 @@ const Register = () => {
             </InputLabel>
           )}
 
-          <div className="align-center">
-            <Button
-              component="label"
-              variant="contained"
-              startIcon={<CloudUploadIcon />}
-            >
-              Profile Picture (optional)
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </div>
           <br />
           <div className="button-parent">
             <div className="align-left">
@@ -155,3 +163,16 @@ const Register = () => {
 };
 
 export default Register;
+
+{
+  /* <div className="align-center">
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
+              Profile Picture (optional)
+              <VisuallyHiddenInput type="file" />
+            </Button>
+          </div> */
+}
