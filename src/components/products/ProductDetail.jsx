@@ -1,35 +1,52 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Paper, Button } from "@mui/material";
+import axios from "axios";
+import "../../align.css";
 
 const ProductDetail = () => {
   const params = useParams();
   const productId = params.id;
+  const [data, setData] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/products/${productId}`)
+      .then((response) => {
+        setData(response.data);
+      });
+  }, []);
   return (
     <div>
       <div style={{ padding: "20px" }}>
         <Typography variant="h4" gutterBottom>
-          Product Name
+          {data.name}
         </Typography>
-        <img
-          src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-          alt="Product"
-          style={{ maxWidth: "100%" }}
-        />
+        <img src={data.image} alt="Product" style={{ maxWidth: "100%" }} />
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
           <Typography variant="h6" gutterBottom>
-            Description
+            {data.description}
           </Typography>
-          <Typography variant="body1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-            pellentesque dignissim vehicula. Sed in feugiat libero.
-          </Typography>
+          <Typography variant="body1">{data.description}</Typography>
           <Typography variant="h6" gutterBottom style={{ marginTop: "20px" }}>
-            Price: $99.99
+            ${data.price}
           </Typography>
           <Button variant="contained" color="primary">
             Add to Cart
           </Button>
+          <div className="button-parent">
+            <div className="align-right">
+              <Button
+                onClick={() => {
+                  navigate(-1);
+                }}
+                size="medium"
+                variant="contained"
+              >
+                Back
+              </Button>
+            </div>
+          </div>
         </Paper>
       </div>
     </div>

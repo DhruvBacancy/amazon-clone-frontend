@@ -1,5 +1,5 @@
 import { Button, Card, Container, Grid, Typography } from "@mui/material";
-import data from "./productData";
+import * as React from "react";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
@@ -7,9 +7,94 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import "../../align.css";
-import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import TablePagination from "@mui/material/TablePagination";
+import axios from "axios";
 
 const ProductsView = () => {
+  const [data, setData] = React.useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [search, setSearch] = React.useState("");
+  const [totalProduct, setTotalProduct] = React.useState();
+  const navigate = useNavigate();
+
+  const queryParams = {
+    page,
+    rowsPerPage,
+    search,
+  };
+
+  React.useEffect(() => {
+    // Check if any of the default parameters are not present in the URL
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (!searchParams.has(key)) {
+        searchParams.set(key, value);
+      }
+    }
+    // Update the URL with the default query parameters
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams]);
+
+  React.useEffect(() => {
+    const page = +searchParams.get("page");
+    const rowsPerPage = +searchParams.get("rowsPerPage");
+    const search = searchParams.get("search") || "";
+
+    setPage(+page);
+    setRowsPerPage(+rowsPerPage);
+    setSearch(search);
+
+    axios
+      .get(
+        `http://localhost:3000/products?page=${
+          page + 1
+        }&productsPerPage=${rowsPerPage}&search=${search}`
+      )
+      .then((res) => {
+        if (res.data.status) {
+          setProducts(res.data.data.products);
+          setTotalProduct(res.data.data.totalProduct);
+        }
+      });
+  }, [searchParams]);
+
+  React.useEffect(() => {
+    const page = +searchParams.get("page");
+    const rowsPerPage = +searchParams.get("rowsPerPage");
+    const search = searchParams.get("search") || "";
+
+    setPage(+page);
+    setRowsPerPage(+rowsPerPage);
+    setSearch(search);
+
+    axios
+      .get(
+        `http://localhost:3000/products?page=${
+          page + 1
+        }&productsPerPage=${rowsPerPage}&search=${search}`
+      )
+      .then((response) => {
+        setData(response.data.products);
+        setTotalProduct(response.data.totalProduct);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [searchParams, setSearchParams]);
+
+  const handleChangePage = (event, newPage) => {
+    searchParams.set("page", newPage.toString());
+    setSearchParams(searchParams);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    searchParams.set("page", 0);
+    searchParams.set("rowsPerPage", event.target.value);
+    setSearchParams(searchParams);
+  };
+
   const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -38,7 +123,6 @@ const ProductsView = () => {
     color: "inherit",
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create("width"),
       width: "100%",
@@ -57,8 +141,11 @@ const ProductsView = () => {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          value={search}
           onChange={(event) => {
-            console.log(event.target.value);
+            searchParams.set("search", event.target.value);
+            searchParams.set("page", 0);
+            setSearchParams(searchParams);
           }}
         />
       </Search>
@@ -73,27 +160,32 @@ const ProductsView = () => {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={result.images[0]}
+                  image={result.image}
                   alt="green iguana"
                   style={{ borderRadius: "5px" }}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    {result.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    {result.description}
+                  </Typography>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Price:${result.price}
                   </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActionArea sx={{ mb: 2 }}>
                 <div className="button-parent">
                   <div className="align-left">
-                    <Button size="medium" variant="contained" onClick={()=>{
-                      <Link/>
-                    }}>
+                    <Button
+                      size="medium"
+                      variant="contained"
+                      onClick={() => {
+                        navigate(`/product/${result.id}`);
+                      }}
+                    >
                       View Details
                     </Button>
                   </div>
@@ -101,6 +193,7 @@ const ProductsView = () => {
                     <Button size="medium" variant="contained">
                       Add to Cart
                     </Button>
+                   
                   </div>
                 </div>
               </CardActionArea>
@@ -108,6 +201,17 @@ const ProductsView = () => {
           </Grid>
         ))}
       </Grid>
+      <div className="align-center">
+        <TablePagination
+          component="div"
+          count={totalProduct}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[5, 10, 15]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </div>
     </Container>
   );
 };

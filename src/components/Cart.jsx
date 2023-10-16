@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Grid, Paper, Typography, Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import ProductDetail from "./products/ProductDetail";
-
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([
@@ -36,59 +34,105 @@ const Cart = () => {
       <Typography variant="h4" gutterBottom>
         Shopping Cart
       </Typography>
-      {cartItems.map((item) => (
-        <Grid container spacing={3} key={item.id}>
-          <Grid item xs={12} md={6}>
-            {/* <ProductDetail name={item.name} imageUrl={item.thumbnail} /> */}
-            <Typography variant="h4" gutterBottom>
-            {item.name}
-        </Typography>
-        <img
-          src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-          alt="Product"
-          style={{ maxWidth: "100%" }}
-        />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Paper elevation={3} style={{ padding: "20px" }}>
-              <Typography variant="body1">Quantity: {item.quantity}</Typography>
-              <IconButton
-                color="secondary"
-                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                disabled={item.quantity <= 1}
-              >
-                -
-              </IconButton>
-              <IconButton
-                color="primary"
-                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-              >
-                +
-              </IconButton>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => removeItem(item.id)}
+      {cartItems.map((item, index) => (
+        <div key={item.id}>
+          <Grid container spacing={3}>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              Remove
-            </Button>
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  width: "100px",
+                  height: "100px",
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <Typography variant="h6">{item.name}</Typography>
+                <Typography variant="body1">
+                  Quantity: {item.quantity}
+                </Typography>
+                <div>
+                  <IconButton
+                    color="secondary"
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                  >
+                    -
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  >
+                    +
+                  </IconButton>
+                </div>
+              </div>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => removeItem(item.id)}
+              >
+                Remove
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+          {index < cartItems.length - 1 && (
+            <div
+              style={{
+                width: "100%",
+                borderBottom: "1px solid #ccc",
+                margin: "10px 0",
+              }}
+            />
+          )}
+        </div>
       ))}
-      <div style={{ marginTop: "20px" }}>
-        <Button component={Link} to="/" variant="outlined" color="primary">
-          Back to Shop
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ marginLeft: "10px" }}
-        >
-          Checkout
-        </Button>
+      <div className="align-center">
+        <div style={{ marginTop: "20px" }}>
+          <Button component={Link} to="/" variant="outlined" color="primary">
+            Back to Shop
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginLeft: "10px" }}
+          >
+            Checkout
+          </Button>
+        </div>
       </div>
     </div>
   );
