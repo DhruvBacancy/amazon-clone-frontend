@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Paper, Button } from "@mui/material";
 import axios from "axios";
+import Rating from "@mui/material/Rating";
 import "../../align.css";
 
 const ProductDetail = () => {
@@ -23,6 +24,9 @@ const ProductDetail = () => {
           {data.name}
         </Typography>
         <img src={data.image} alt="Product" style={{ maxWidth: "100%" }} />
+        <div>
+          <Rating name="read-only" value={+data.ratings} readOnly />
+        </div>
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
           <Typography variant="h6" gutterBottom>
             {data.description}

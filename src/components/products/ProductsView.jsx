@@ -193,7 +193,6 @@ const ProductsView = () => {
                     <Button size="medium" variant="contained">
                       Add to Cart
                     </Button>
-                   
                   </div>
                 </div>
               </CardActionArea>
