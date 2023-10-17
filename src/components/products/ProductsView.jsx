@@ -10,8 +10,12 @@ import "../../align.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TablePagination from "@mui/material/TablePagination";
 import axios from "axios";
+import { AuthContextExport } from "../../util/context/AuthContext";
+import { addToCart } from "../../util/redux/actions/actions";
+import { useDispatch } from "react-redux";
 
 const ProductsView = () => {
+  const { token } = AuthContextExport();
   const [data, setData] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = React.useState(0);
@@ -19,6 +23,7 @@ const ProductsView = () => {
   const [search, setSearch] = React.useState("");
   const [totalProduct, setTotalProduct] = React.useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const queryParams = {
     page,
@@ -60,6 +65,10 @@ const ProductsView = () => {
         console.error("Error:", error);
       });
   }, [searchParams, setSearchParams]);
+
+  const addProduct = (index) => {
+    dispatch(addToCart(data[index]));
+  };
 
   const handleChangePage = (event, newPage) => {
     searchParams.set("page", newPage.toString());
@@ -145,9 +154,6 @@ const ProductsView = () => {
                   <Typography gutterBottom variant="h5" component="div">
                     {result.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {result.description}
-                  </Typography>
                   <Typography gutterBottom variant="h5" component="div">
                     Price:${result.price}
                   </Typography>
@@ -162,15 +168,29 @@ const ProductsView = () => {
                       onClick={() => {
                         navigate(`/product/${result.id}`);
                       }}
+                      sx={{ marginLeft: "10px" }}
                     >
                       View Details
                     </Button>
                   </div>
-                  <div className="align-right">
-                    <Button size="medium" variant="contained">
-                      Add to Cart
-                    </Button>
-                  </div>
+                  {token ? (
+                    <>
+                      <div className="align-right">
+                        <Button
+                          size="medium"
+                          variant="contained"
+                          onClick={() => {
+                            addProduct(index);
+                          }}
+                          sx={{ marginRight: "10px" }}
+                        >
+                          Add to Cart
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </CardActionArea>
             </Card>
@@ -193,3 +213,9 @@ const ProductsView = () => {
 };
 
 export default ProductsView;
+
+{
+  /* <Typography variant="body2" color="text.secondary">
+                    {result.description}
+                  </Typography> */
+}

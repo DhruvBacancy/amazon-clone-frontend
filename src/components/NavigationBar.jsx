@@ -18,8 +18,10 @@ import "../align.css";
 import { AuthContextExport } from "../util/context/AuthContext";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
+import { useSelector } from "react-redux";
 
 function NavigationBar() {
+  const cartData = useSelector((state) => state.cartReducer);
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       right: -3,
@@ -30,7 +32,7 @@ function NavigationBar() {
   }));
   const { token } = AuthContextExport();
   const pages = token
-    ? ["home", "products"]
+    ? ["home", "products", "orders"]
     : ["home", "products", "register", "login"];
   const settings = token ? ["dashboard", "logout"] : ["register", "login"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -146,17 +148,23 @@ function NavigationBar() {
               </NavLink>
             ))}
           </Box>
-          <Link to="/cart" className="a">
-            <IconButton aria-label="cart">
-              <StyledBadge
-                badgeContent={3}
-                color="secondary"
-                sx={{ marginRight: "15px", color: "white", size: "15px" }}
-              >
-                <ShoppingCartIcon />
-              </StyledBadge>
-            </IconButton>
-          </Link>
+          {!token ? (
+            <></>
+          ) : (
+            <>
+              <Link to="/cart" className="a">
+                <IconButton aria-label="cart">
+                  <StyledBadge
+                    badgeContent={cartData.length}
+                    color="secondary"
+                    sx={{ marginRight: "15px", color: "white", size: "15px" }}
+                  >
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              </Link>
+            </>
+          )}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

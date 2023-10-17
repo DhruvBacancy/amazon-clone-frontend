@@ -1,39 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Paper, Typography, Button, IconButton } from "@mui/material";
+import { Grid,  Typography, Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "../align.css";
+import { useDispatch, useSelector } from "react-redux";
+import { emptyCart, removeFromCart } from "../util/redux/actions/actions";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      quantity: 2,
-      imageUrl: "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
-    },
-    { id: 2, name: "Product 2", quantity: 1, imageUrl: "product2.jpg" },
-    // Add more items as needed
-  ]);
-
-  const config = {
-    method: "get",
-    url: "http://localhost:3000/cart",
-    headers: {
-      Authorization: `${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  useEffect(() => {
-    axios(config)
-      .then((response) => {
-        setCartItems(response.data?.data?.cart_items);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cartReducer);
+  // const [cartItems, setCartItems] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Product 1",
+  //     quantity: 2,
+  //     imageUrl: "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+  //   },
+  //   { id: 2, name: "Product 2", quantity: 1, imageUrl: "product2.jpg" },
+  //   // Add more items as needed
+  // ]);
 
   const updateQuantity = (itemId, newQuantity) => {
     const updatedCart = cartItems.map((item) => {
@@ -42,16 +28,25 @@ const Cart = () => {
       }
       return item;
     });
-    setCartItems(updatedCart);
   };
 
   const removeItem = (itemId) => {
-    const updatedCart = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCart);
+    dispatch(removeFromCart(itemId));
   };
 
   return (
     <>
+      <Button
+        variant="contained"
+        color="secondary"
+        startIcon={<DeleteIcon />}
+        onClick={() => {
+          dispatch(emptyCart());
+        }}
+        sx={{ marginTop: "20px", marginLeft: "20px" }}
+      >
+        Clear Cart
+      </Button>
       {cartItems.length === 0 ? (
         <>
           <div className="align-center">
@@ -78,7 +73,7 @@ const Cart = () => {
                     }}
                   >
                     <img
-                      src={item.imageUrl}
+                      src={item.image}
                       alt={item.name}
                       style={{
                         maxWidth: "100%",

@@ -32,13 +32,13 @@ const router = () => {
         ) : (
           <>
             <Route path="logout" element={<Logout />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/dashboard" element={<UserDashboard />} />
           </>
         )}
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Navigate to="/" replace={true} />} />
         <Route path="/products" element={<ProductsView />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/*" element={<Error />} />
       </Routes>

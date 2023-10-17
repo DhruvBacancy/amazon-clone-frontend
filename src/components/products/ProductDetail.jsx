@@ -4,19 +4,28 @@ import { Typography, Paper, Button } from "@mui/material";
 import axios from "axios";
 import Rating from "@mui/material/Rating";
 import "../../align.css";
+import { AuthContextExport } from "../../util/context/AuthContext";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../util/redux/actions/actions";
 
 const ProductDetail = () => {
+  const { token } = AuthContextExport();
   const params = useParams();
   const productId = params.id;
   const [data, setData] = useState({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     axios
       .get(`http://localhost:3000/products/${productId}`)
       .then((response) => {
         setData(response.data);
+      })
+      .catch((error) => {
+        navigate("/*");
       });
   }, []);
+
   return (
     <div>
       <div style={{ padding: "20px" }}>
@@ -28,16 +37,25 @@ const ProductDetail = () => {
           <Rating name="read-only" value={+data.ratings} readOnly />
         </div>
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
-          <Typography variant="h6" gutterBottom>
-            {data.description}
-          </Typography>
           <Typography variant="body1">{data.description}</Typography>
           <Typography variant="h6" gutterBottom style={{ marginTop: "20px" }}>
             ${data.price}
           </Typography>
-          <Button variant="contained" color="primary">
-            Add to Cart
-          </Button>
+          {token ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  dispatch(addToCart(data));
+                }}
+              >
+                Add to Cart
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
           <div className="button-parent">
             <div className="align-right">
               <Button
@@ -46,6 +64,7 @@ const ProductDetail = () => {
                 }}
                 size="medium"
                 variant="contained"
+                sx={{ marginTop: "10px" }}
               >
                 Back
               </Button>
@@ -58,3 +77,9 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
+{
+  /* <Typography variant="h6" gutterBottom>
+                  {data.description}
+                </Typography> */
+}

@@ -29,9 +29,9 @@ export const loginSchema = Yup.object().shape({
       4,
       "password must contain 4 or more characters with at least one of each: uppercase, lowercase, number and special"
     )
-    .minLowercase(1, "password must contain at least 1 lower case letter")
-    .minUppercase(1, "password must contain at least 1 upper case letter")
-    .minNumbers(1, "password must contain at least 1 number")
-    .minSymbols(1, "password must contain at least 1 special character")
+    .minLowercase(1, "Invalid Password")
+    .minUppercase(1, "Invalid Password")
+    .minNumbers(1, "Invalid Password")
+    .minSymbols(1, "Invalid Password")
     .required("No password provided."),
 });

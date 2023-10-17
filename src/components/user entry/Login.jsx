@@ -14,9 +14,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { AuthContextExport } from "../../util/context/AuthContext";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../util/redux/actions/actions";
+import { useEffect } from "react";
 
 const Login = () => {
   const { token, login, logout } = AuthContextExport();
+  const dispatch = useDispatch();
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -45,6 +49,22 @@ const Login = () => {
             navigate("/");
           }, 1000);
         }
+      });
+    const config = {
+      method: "get",
+      url: "http://localhost:3000/cart",
+      headers: {
+        Authorization: `${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        dispatch(addToCart(response.data?.data?.cart_items));
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
   return (
@@ -104,7 +124,6 @@ const Login = () => {
           </Button>
         </form>
         <Typography>
-          {" "}
           Do you have an account ?<Link to="/register">Sign Up</Link>
         </Typography>
       </Paper>
