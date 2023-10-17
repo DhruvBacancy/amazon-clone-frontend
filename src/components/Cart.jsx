@@ -18,7 +18,7 @@ const Cart = () => {
 
   const config = {
     method: "get",
-    url: "http://localhost:3000/cart/",
+    url: "http://localhost:3000/cart",
     headers: {
       Authorization: `${localStorage.getItem("token")}`,
       "Content-Type": "application/json",

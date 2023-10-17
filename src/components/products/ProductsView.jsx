@@ -14,7 +14,7 @@ import axios from "axios";
 const ProductsView = () => {
   const [data, setData] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [search, setSearch] = React.useState("");
   const [totalProduct, setTotalProduct] = React.useState();
@@ -36,29 +36,6 @@ const ProductsView = () => {
     // Update the URL with the default query parameters
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
-
-  React.useEffect(() => {
-    const page = +searchParams.get("page");
-    const rowsPerPage = +searchParams.get("rowsPerPage");
-    const search = searchParams.get("search") || "";
-
-    setPage(+page);
-    setRowsPerPage(+rowsPerPage);
-    setSearch(search);
-
-    axios
-      .get(
-        `http://localhost:3000/products?page=${
-          page + 1
-        }&productsPerPage=${rowsPerPage}&search=${search}`
-      )
-      .then((res) => {
-        if (res.data.status) {
-          setProducts(res.data.data.products);
-          setTotalProduct(res.data.data.totalProduct);
-        }
-      });
-  }, [searchParams]);
 
   React.useEffect(() => {
     const page = +searchParams.get("page");

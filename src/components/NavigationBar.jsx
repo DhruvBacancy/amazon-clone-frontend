@@ -16,8 +16,18 @@ import { Link, NavLink } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "../align.css";
 import { AuthContextExport } from "../util/context/AuthContext";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
 
 function NavigationBar() {
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `px solid ${theme.palette.background.paper}`,
+      padding: "0 px",
+    },
+  }));
   const { token } = AuthContextExport();
   const pages = token
     ? ["home", "products"]
@@ -137,7 +147,15 @@ function NavigationBar() {
             ))}
           </Box>
           <Link to="/cart" className="a">
-            <ShoppingCartIcon />
+            <IconButton aria-label="cart">
+              <StyledBadge
+                badgeContent={3}
+                color="secondary"
+                sx={{ marginRight: "15px", color: "white", size: "15px" }}
+              >
+                <ShoppingCartIcon />
+              </StyledBadge>
+            </IconButton>
           </Link>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
