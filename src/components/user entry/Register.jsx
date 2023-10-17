@@ -120,6 +120,7 @@ const Register = () => {
             name="password"
             fullWidth
             label="Password*"
+            type="password"
             placeholder="Enter your password"
             variant="standard"
             margin="dense"
