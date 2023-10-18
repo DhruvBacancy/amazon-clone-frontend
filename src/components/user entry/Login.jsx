@@ -54,7 +54,7 @@ const Login = () => {
                 "Content-Type": "application/json",
               },
             };
-
+            dispatch(fetchCartApi());
             navigate("/");
           }, 1000);
         }

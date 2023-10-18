@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addToCart, getCart } from "../actions/actions";
+import { addToCart, emptyCart, getCart } from "../actions/actions";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",
@@ -21,7 +21,6 @@ export const fetchCartApi = () => {
   return async function (dispatch) {
     axios(config)
       .then((response) => {
-        console.log(response.data?.cart_items)
         dispatch(getCart(response.data?.cart_items));
       })
       .catch((error) => {
@@ -33,11 +32,22 @@ export const fetchCartApi = () => {
 export const addToCartApi = (productData) => {
   return async (dispatch) => {
     try {
-      const response = await axiosInstance.post("/cart/add/", {
+      await axiosInstance.post("/cart/add/", {
         ProductId: productData.id,
         quantity: 1,
       });
       dispatch(addToCart(productData));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const emptyAllItems = () => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.delete("/cart/removeAll");
+      dispatch(emptyCart());
     } catch (error) {
       console.log(error.message);
     }

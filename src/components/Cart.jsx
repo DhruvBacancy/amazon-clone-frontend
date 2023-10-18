@@ -3,8 +3,9 @@ import { Grid, Typography, Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../align.css";
 import { useDispatch, useSelector } from "react-redux";
-import { emptyCart, removeFromCart } from "../util/redux/actions/actions";
+import { removeFromCart } from "../util/redux/actions/actions";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { emptyAllItems } from "../util/redux/reducers/CartApi";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,6 @@ const Cart = () => {
   );
   const formattedTotal = total.toFixed(2);
 
-console.log(cartItems)
   return (
     <>
       <Button
@@ -37,7 +37,7 @@ console.log(cartItems)
         color="secondary"
         startIcon={<DeleteIcon />}
         onClick={() => {
-          dispatch(emptyCart());
+          dispatch(emptyAllItems());
         }}
         sx={{ marginTop: "20px", marginLeft: "20px" }}
       >

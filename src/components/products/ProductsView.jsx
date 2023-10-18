@@ -67,7 +67,6 @@ const ProductsView = () => {
   }, [searchParams, setSearchParams]);
 
   const addProduct = (index) => {
-    console.log(data[index])
     dispatch(addToCartApi(data[index]));
     dispatch(fetchCartApi());
   };
