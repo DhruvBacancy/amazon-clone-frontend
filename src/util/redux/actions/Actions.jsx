@@ -6,7 +6,7 @@ export const addToCart = (item) => {
 };
 
 export const getCart = (item) => {
-    return {
+  return {
     type: "GET_CART",
     payload: item,
   };

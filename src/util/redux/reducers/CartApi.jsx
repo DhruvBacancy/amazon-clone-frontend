@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addToCart, emptyCart, getCart } from "../actions/actions";
+import { emptyCart, getCart, removeFromCart } from "../actions/actions";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",
@@ -36,7 +36,7 @@ export const addToCartApi = (productData) => {
         ProductId: productData.id,
         quantity: 1,
       });
-      dispatch(addToCart(productData));
+      dispatch(fetchCartApi());
     } catch (error) {
       console.log(error.message);
     }
@@ -48,6 +48,21 @@ export const emptyAllItems = () => {
     try {
       await axiosInstance.delete("/cart/removeAll");
       dispatch(emptyCart());
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const removeProduct = (id) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.request({
+        method: "delete",
+        url: "/cart/remove",
+        data: { ProductId: +id },
+      });
+      dispatch(removeFromCart(id));
     } catch (error) {
       console.log(error.message);
     }

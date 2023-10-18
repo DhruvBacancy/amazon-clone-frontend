@@ -68,7 +68,6 @@ const ProductsView = () => {
 
   const addProduct = (index) => {
     dispatch(addToCartApi(data[index]));
-    dispatch(fetchCartApi());
   };
 
   const handleChangePage = (event, newPage) => {

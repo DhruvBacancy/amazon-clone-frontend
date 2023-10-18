@@ -3,14 +3,12 @@ import { Grid, Typography, Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../align.css";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "../util/redux/actions/actions";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { emptyAllItems } from "../util/redux/reducers/CartApi";
+import { emptyAllItems, removeProduct } from "../util/redux/reducers/CartApi";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartReducer);
-
   const updateQuantity = (product_id, newQuantity) => {
     const updatedCart = cartItems.map((item) => {
       if (item.product_id === product_id) {
@@ -20,15 +18,13 @@ const Cart = () => {
     });
   };
 
-  const removeItem = (product_id) => {
-    dispatch(removeFromCart(product_id));
-  };
-
   const total = cartItems.reduce(
     (acc, item) => acc + item.price_per_unit * item.quantity,
     0
   );
   const formattedTotal = total.toFixed(2);
+
+  console.log(cartItems);
 
   return (
     <>
@@ -37,15 +33,17 @@ const Cart = () => {
         color="secondary"
         startIcon={<DeleteIcon />}
         onClick={() => {
-          dispatch(emptyAllItems());
+          if (cartItems.length > 0) {
+            dispatch(emptyAllItems());
+          }
         }}
         sx={{ marginTop: "20px", marginLeft: "20px" }}
       >
         Clear Cart
       </Button>
-      {cartItems.length === 0 ? (
+      {cartItems.length === 0 || !cartItems ? (
         <>
-          <div classproduct_name="align-center">
+          <div className="align-center">
             <h1>Cart is empty</h1>
           </div>
         </>
@@ -129,7 +127,9 @@ const Cart = () => {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => removeItem(item.product_id)}
+                      onClick={() => {
+                        dispatch(removeProduct(item.product_id));
+                      }}
                     >
                       Remove
                     </Button>
