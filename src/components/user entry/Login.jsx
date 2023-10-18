@@ -46,14 +46,6 @@ const Login = () => {
           localStorage.setItem("token", res?.data?.token || "");
           setTimeout(() => {
             login(res.data.token);
-            const config = {
-              method: "get",
-              url: "http://localhost:3000/cart",
-              headers: {
-                Authorization: `${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
-              },
-            };
             dispatch(fetchCartApi());
             navigate("/");
           }, 1000);

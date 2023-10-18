@@ -13,6 +13,7 @@ import { AuthContextExport } from "../util/context/AuthContext";
 import Error from "../components/Error";
 import { useDispatch } from "react-redux";
 import { fetchCartApi } from "../util/redux/reducers/CartApi";
+import Orders from "../components/Orders";
 
 const router = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const router = () => {
             <Route path="logout" element={<Logout />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/orders" element={<Orders />} />
           </>
         )}
         <Route path="/" element={<Home />} />

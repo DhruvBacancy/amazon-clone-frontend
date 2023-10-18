@@ -164,16 +164,3 @@ const Register = () => {
 };
 
 export default Register;
-
-{
-  /* <div className="align-center">
-            <Button
-              component="label"
-              variant="contained"
-              startIcon={<CloudUploadIcon />}
-            >
-              Profile Picture (optional)
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </div> */
-}

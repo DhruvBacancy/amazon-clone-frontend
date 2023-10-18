@@ -1,24 +1,66 @@
 import React from "react";
 import { Grid, Typography, Button, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../align.css";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import {
   emptyAllItems,
   removeProduct,
   updateProduct,
 } from "../util/redux/reducers/CartApi";
+import axios from "axios";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartReducer);
+
+  const navigate = useNavigate();
 
   const total = cartItems.reduce(
     (acc, item) => acc + item.price_per_unit * item.quantity,
     0
   );
   const formattedTotal = total.toFixed(2);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirm = () => {
+    const config = {
+      method: "post",
+      url: "http://localhost:3000/api/orders/place",
+      headers: {
+        Authorization: `${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        shipping: {
+          street: "Law Garden",
+          city: "Maninagar",
+          zipCode: "890XXG",
+        },
+        paymentMethod: "credit_card",
+      },
+    };
+    axios(config).then(() => {
+      dispatch(emptyAllItems());
+      setOpen(false);
+      navigate("/orders");
+    });
+  };
 
   return (
     <>
@@ -159,11 +201,32 @@ const Cart = () => {
                 </Button>
                 <Button
                   variant="contained"
-                  color="primary"
-                  style={{ marginLeft: "10px" }}
+                  sx={{ marginLeft: "5px" }}
+                  onClick={handleClickOpen}
                 >
                   Checkout
                 </Button>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Proceed Ahead?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Click the confirm button to place order
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleConfirm} autoFocus>
+                      Confrim
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
             </div>
           </div>
