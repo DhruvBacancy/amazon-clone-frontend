@@ -15,11 +15,11 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { AuthContextExport } from "../../util/context/AuthContext";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../util/redux/actions/actions";
-import { useEffect } from "react";
+import { getCart } from "../../util/redux/actions/actions";
+import { fetchCartApi } from "../../util/redux/reducers/CartApi";
 
 const Login = () => {
-  const { token, login, logout } = AuthContextExport();
+  const { login } = AuthContextExport();
   const dispatch = useDispatch();
   const paperStyle = {
     padding: 20,
@@ -46,25 +46,18 @@ const Login = () => {
           localStorage.setItem("token", res?.data?.token || "");
           setTimeout(() => {
             login(res.data.token);
+            const config = {
+              method: "get",
+              url: "http://localhost:3000/cart",
+              headers: {
+                Authorization: `${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+              },
+            };
+
             navigate("/");
           }, 1000);
         }
-      });
-    const config = {
-      method: "get",
-      url: "http://localhost:3000/cart",
-      headers: {
-        Authorization: `${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-
-    axios(config)
-      .then((response) => {
-        dispatch(addToCart(response.data?.data?.cart_items));
-      })
-      .catch((error) => {
-        console.log(error);
       });
   };
   return (

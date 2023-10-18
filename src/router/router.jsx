@@ -11,13 +11,17 @@ import UserDashboard from "../components/dashboard/UserDashboard";
 import Logout from "../components/user entry/Logout";
 import { AuthContextExport } from "../util/context/AuthContext";
 import Error from "../components/Error";
+import { useDispatch } from "react-redux";
+import { fetchCartApi } from "../util/redux/reducers/CartApi";
 
 const router = () => {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const { login } = AuthContextExport();
   useEffect(() => {
     if (token) {
       login(token);
+      dispatch(fetchCartApi());
     }
   }, []);
   return (

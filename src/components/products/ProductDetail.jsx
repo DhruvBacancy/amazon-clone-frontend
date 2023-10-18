@@ -7,6 +7,7 @@ import "../../align.css";
 import { AuthContextExport } from "../../util/context/AuthContext";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../util/redux/actions/actions";
+import { addToCartApi } from "../../util/redux/reducers/CartApi";
 
 const ProductDetail = () => {
   const { token } = AuthContextExport();
@@ -47,7 +48,7 @@ const ProductDetail = () => {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  dispatch(addToCart(data));
+                  dispatch(addToCartApi(data[index]));
                 }}
               >
                 Add to Cart

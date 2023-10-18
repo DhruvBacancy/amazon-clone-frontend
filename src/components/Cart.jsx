@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Grid,  Typography, Button, IconButton } from "@mui/material";
+import React from "react";
+import { Grid, Typography, Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import "../align.css";
 import { useDispatch, useSelector } from "react-redux";
 import { emptyCart, removeFromCart } from "../util/redux/actions/actions";
@@ -10,29 +9,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartReducer);
-  // const [cartItems, setCartItems] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Product 1",
-  //     quantity: 2,
-  //     imageUrl: "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
-  //   },
-  //   { id: 2, name: "Product 2", quantity: 1, imageUrl: "product2.jpg" },
-  //   // Add more items as needed
-  // ]);
 
-  const updateQuantity = (itemId, newQuantity) => {
+  const updateQuantity = (product_id, newQuantity) => {
     const updatedCart = cartItems.map((item) => {
-      if (item.id === itemId) {
+      if (item.product_id === product_id) {
         return { ...item, quantity: newQuantity };
       }
       return item;
     });
   };
 
-  const removeItem = (itemId) => {
-    dispatch(removeFromCart(itemId));
+  const removeItem = (product_id) => {
+    dispatch(removeFromCart(product_id));
   };
+  console.log(cartItems);
 
   return (
     <>
@@ -49,7 +39,7 @@ const Cart = () => {
       </Button>
       {cartItems.length === 0 ? (
         <>
-          <div className="align-center">
+          <div classproduct_name="align-center">
             <h1>Cart is empty</h1>
           </div>
         </>
@@ -60,7 +50,7 @@ const Cart = () => {
               Shopping Cart
             </Typography>
             {cartItems.map((item, index) => (
-              <div key={item.id}>
+              <div key={index}>
                 <Grid container spacing={3}>
                   <Grid
                     item
@@ -74,10 +64,9 @@ const Cart = () => {
                   >
                     <img
                       src={item.image}
-                      alt={item.name}
+                      alt={item.product_name}
                       style={{
                         maxWidth: "100%",
-                        // height: "auto",
                         width: "100px",
                         height: "100px",
                       }}
@@ -89,34 +78,36 @@ const Cart = () => {
                     md={4}
                     style={{
                       display: "flex",
+                      flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
+                    <Typography variant="h6">{item.product_name}</Typography>
+                    <Typography variant="body1">
+                      Quantity: {item.quantity}
+                    </Typography>
+                    <Typography variant="h6" sx={{}}>
+                      $: {item.price_per_unit}
+                    </Typography>
                     <div>
-                      <Typography variant="h6">{item.name}</Typography>
-                      <Typography variant="body1">
-                        Quantity: {item.quantity}
-                      </Typography>
-                      <div>
-                        <IconButton
-                          color="secondary"
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                          disabled={item.quantity <= 1}
-                        >
-                          -
-                        </IconButton>
-                        <IconButton
-                          color="primary"
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                        >
-                          +
-                        </IconButton>
-                      </div>
+                      <IconButton
+                        color="secondary"
+                        onClick={() =>
+                          updateQuantity(item.product_id, item.quantity - 1)
+                        }
+                        disabled={item.quantity <= 1}
+                      >
+                        -
+                      </IconButton>
+                      <IconButton
+                        color="primary"
+                        onClick={() =>
+                          updateQuantity(item.product_id, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </IconButton>
                     </div>
                   </Grid>
                   <Grid
@@ -132,7 +123,7 @@ const Cart = () => {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.product_id)}
                     >
                       Remove
                     </Button>

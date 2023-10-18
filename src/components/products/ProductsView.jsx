@@ -11,8 +11,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import TablePagination from "@mui/material/TablePagination";
 import axios from "axios";
 import { AuthContextExport } from "../../util/context/AuthContext";
-import { addToCart } from "../../util/redux/actions/actions";
 import { useDispatch } from "react-redux";
+import { addToCartApi } from "../../util/redux/reducers/CartApi";
 
 const ProductsView = () => {
   const { token } = AuthContextExport();
@@ -67,7 +67,8 @@ const ProductsView = () => {
   }, [searchParams, setSearchParams]);
 
   const addProduct = (index) => {
-    dispatch(addToCart(data[index]));
+    dispatch(addToCartApi(data[index]));
+    
   };
 
   const handleChangePage = (event, newPage) => {
