@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCart } from "../actions/actions";
+import { addToCart, getCart } from "../actions/actions";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",
@@ -21,7 +21,8 @@ export const fetchCartApi = () => {
   return async function (dispatch) {
     axios(config)
       .then((response) => {
-        dispatch(getCart(response.data?.cart_items[0]));
+        console.log(response.data?.cart_items)
+        dispatch(getCart(response.data?.cart_items));
       })
       .catch((error) => {
         console.log(error);
@@ -30,18 +31,15 @@ export const fetchCartApi = () => {
 };
 
 export const addToCartApi = (productData) => {
-  console.log(productData);
   return async (dispatch) => {
     try {
       const response = await axiosInstance.post("/cart/add/", {
         ProductId: productData.id,
         quantity: 1,
       });
-      console.log(response);
-      //   dispatch({ type: "ADD_TO_CART_SUCCESS", payload: response.data });
+      dispatch(addToCart(productData));
     } catch (error) {
       console.log(error.message);
-      //   dispatch({ type: "ADD_TO_CART_ERROR", error: error.message });
     }
   };
 };

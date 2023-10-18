@@ -22,8 +22,14 @@ const Cart = () => {
   const removeItem = (product_id) => {
     dispatch(removeFromCart(product_id));
   };
-  console.log(cartItems);
 
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.price_per_unit * item.quantity,
+    0
+  );
+  const formattedTotal = total.toFixed(2);
+
+console.log(cartItems)
   return (
     <>
       <Button
@@ -87,8 +93,8 @@ const Cart = () => {
                     <Typography variant="body1">
                       Quantity: {item.quantity}
                     </Typography>
-                    <Typography variant="h6" sx={{}}>
-                      $: {item.price_per_unit}
+                    <Typography variant="h6">
+                      $ {item.price_per_unit}
                     </Typography>
                     <div>
                       <IconButton
@@ -142,6 +148,9 @@ const Cart = () => {
             ))}
             <div className="align-center">
               <div style={{ marginTop: "20px" }}>
+                <Typography variant="h6">
+                  Total Price: $ {formattedTotal}
+                </Typography>
                 <Button
                   component={Link}
                   to="/"

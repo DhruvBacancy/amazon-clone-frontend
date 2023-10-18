@@ -12,7 +12,7 @@ import TablePagination from "@mui/material/TablePagination";
 import axios from "axios";
 import { AuthContextExport } from "../../util/context/AuthContext";
 import { useDispatch } from "react-redux";
-import { addToCartApi } from "../../util/redux/reducers/CartApi";
+import { addToCartApi, fetchCartApi } from "../../util/redux/reducers/CartApi";
 
 const ProductsView = () => {
   const { token } = AuthContextExport();
@@ -59,7 +59,7 @@ const ProductsView = () => {
       )
       .then((response) => {
         setData(response.data.products);
-        setTotalProduct(response.data.totalProduct);
+        setTotalProduct(+response.data.totalProduct);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -67,8 +67,9 @@ const ProductsView = () => {
   }, [searchParams, setSearchParams]);
 
   const addProduct = (index) => {
+    console.log(data[index])
     dispatch(addToCartApi(data[index]));
-    
+    dispatch(fetchCartApi());
   };
 
   const handleChangePage = (event, newPage) => {
@@ -201,7 +202,7 @@ const ProductsView = () => {
       <div className="align-center">
         <TablePagination
           component="div"
-          count={totalProduct}
+          count={+totalProduct}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

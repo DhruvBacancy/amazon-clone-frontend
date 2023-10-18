@@ -1,10 +1,9 @@
 import { combineReducers } from "redux";
 
 const cartReducer = (state = [], action) => {
-  console.log(action.payload)
-  switch (action.type) {
+    switch (action.type) {
     case "GET_CART":
-      return [...state, action.payload];
+      return action.payload;
     case "ADD_TO_CART":
       return [...state, action.payload];
     case "REMOVE_FROM_CART":
