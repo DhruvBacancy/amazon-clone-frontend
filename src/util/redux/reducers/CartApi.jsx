@@ -1,5 +1,10 @@
 import axios from "axios";
-import { emptyCart, getCart, removeFromCart } from "../actions/actions";
+import {
+  emptyCart,
+  getCart,
+  removeFromCart,
+  updateCart,
+} from "../actions/actions";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",
@@ -65,6 +70,21 @@ export const removeProduct = (id) => {
       dispatch(removeFromCart(id));
     } catch (error) {
       console.log(error.message);
+    }
+  };
+};
+
+export const updateProduct = (id, quantity) => {
+  return async (dispatch) => {
+    try {
+      await axiosInstance.request({
+        method: "patch",
+        url: "/cart/update",
+        data: { ProductId: +id, quantity },
+      });
+      dispatch(updateCart(id, quantity));
+    } catch (error) {
+      console.log(error);
     }
   };
 };

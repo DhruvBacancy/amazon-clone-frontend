@@ -4,27 +4,21 @@ import { Link } from "react-router-dom";
 import "../align.css";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { emptyAllItems, removeProduct } from "../util/redux/reducers/CartApi";
+import {
+  emptyAllItems,
+  removeProduct,
+  updateProduct,
+} from "../util/redux/reducers/CartApi";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartReducer);
-  const updateQuantity = (product_id, newQuantity) => {
-    const updatedCart = cartItems.map((item) => {
-      if (item.product_id === product_id) {
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    });
-  };
 
   const total = cartItems.reduce(
     (acc, item) => acc + item.price_per_unit * item.quantity,
     0
   );
   const formattedTotal = total.toFixed(2);
-
-  console.log(cartItems);
 
   return (
     <>
@@ -98,7 +92,9 @@ const Cart = () => {
                       <IconButton
                         color="secondary"
                         onClick={() =>
-                          updateQuantity(item.product_id, item.quantity - 1)
+                          dispatch(
+                            updateProduct(item.product_id, item.quantity - 1)
+                          )
                         }
                         disabled={item.quantity <= 1}
                       >
@@ -107,7 +103,9 @@ const Cart = () => {
                       <IconButton
                         color="primary"
                         onClick={() =>
-                          updateQuantity(item.product_id, item.quantity + 1)
+                          dispatch(
+                            updateProduct(item.product_id, item.quantity + 1)
+                          )
                         }
                       >
                         +

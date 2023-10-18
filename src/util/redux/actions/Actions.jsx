@@ -22,3 +22,7 @@ export const removeFromCart = (itemId) => {
 export const emptyCart = () => {
   return { type: "EMPTY_CART" };
 };
+
+export const updateCart = (product_id, newQuantity) => {
+  return { type: "UPDATE_CART", payload: { product_id, newQuantity } };
+};
