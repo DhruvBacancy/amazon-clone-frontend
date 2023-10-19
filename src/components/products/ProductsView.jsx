@@ -39,7 +39,7 @@ const ProductsView = () => {
     }
 
     setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
+  }, [searchParams]);
 
   React.useEffect(() => {
     const page = +searchParams.get("page");
@@ -63,10 +63,17 @@ const ProductsView = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [searchParams, setSearchParams]);
+  }, [searchParams]);
 
   const addProduct = (index) => {
-    dispatch(addToCartApi(data[index]));
+    const newProduct = {
+      image: data[index].image,
+      price_per_unit: data[index].price,
+      product_id: data[index].id,
+      product_name: data[index].name,
+      quantity: 1,
+    };
+    dispatch(addToCartApi(data[index], newProduct));
   };
 
   const handleChangePage = (event, newPage) => {
@@ -132,6 +139,7 @@ const ProductsView = () => {
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
           value={search}
+          autoFocus
           onChange={(event) => {
             searchParams.set("search", event.target.value);
             searchParams.set("page", 0);
@@ -212,7 +220,7 @@ const ProductsView = () => {
       <div className="align-center">
         <TablePagination
           component="div"
-          count={+totalProduct}
+          count={+totalProduct || 0}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

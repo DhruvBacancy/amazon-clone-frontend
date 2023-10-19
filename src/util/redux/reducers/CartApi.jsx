@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  addToCart,
   emptyCart,
   getCart,
   removeFromCart,
@@ -34,14 +35,14 @@ export const fetchCartApi = () => {
   };
 };
 
-export const addToCartApi = (productData) => {
+export const addToCartApi = (productData, cartData) => {
   return async (dispatch) => {
     try {
       await axiosInstance.post("/cart/add/", {
         ProductId: productData.id,
         quantity: 1,
       });
-      dispatch(fetchCartApi());
+      dispatch(addToCart(cartData));
     } catch (error) {
       console.log(error.message);
     }
