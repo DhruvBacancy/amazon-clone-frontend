@@ -79,8 +79,3 @@ const ProductDetail = () => {
 
 export default ProductDetail;
 
-{
-  /* <Typography variant="h6" gutterBottom>
-                  {data.description}
-                </Typography> */
-}

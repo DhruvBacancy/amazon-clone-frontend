@@ -57,8 +57,11 @@ const Register = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => {
-        navigate("/login");
+      .then((res) => {
+        if (res.status === 201) {
+          alert("Registartion Successfull. Verify email and proceed to login");
+          navigate("/login");
+        }
       })
       .catch((error) => {
         console.error("Error:", error);

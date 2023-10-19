@@ -214,8 +214,3 @@ const ProductsView = () => {
 
 export default ProductsView;
 
-{
-  /* <Typography variant="body2" color="text.secondary">
-                    {result.description}
-                  </Typography> */
-}

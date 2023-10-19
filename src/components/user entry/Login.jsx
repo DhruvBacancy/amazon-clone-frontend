@@ -47,6 +47,7 @@ const Login = () => {
           setTimeout(() => {
             login(res.data.token);
             dispatch(fetchCartApi());
+            alert("Login Successful");
             navigate("/");
           }, 1000);
         }
