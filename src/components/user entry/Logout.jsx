@@ -12,7 +12,7 @@ const Logout = () => {
     logout();
     localStorage.removeItem("token");
     dispatch(emptyCart());
-    alert("Logout successful. Naviagte to home");
+    alert("Logout successful. Navigate to home");
     navigate("/");
   }, []);
 };
