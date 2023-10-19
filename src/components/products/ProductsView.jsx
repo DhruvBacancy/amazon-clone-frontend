@@ -12,7 +12,7 @@ import TablePagination from "@mui/material/TablePagination";
 import axios from "axios";
 import { AuthContextExport } from "../../util/context/AuthContext";
 import { useDispatch } from "react-redux";
-import { addToCartApi, fetchCartApi } from "../../util/redux/reducers/CartApi";
+import { addToCartApi } from "../../util/redux/reducers/CartApi";
 
 const ProductsView = () => {
   const { token } = AuthContextExport();
@@ -32,13 +32,12 @@ const ProductsView = () => {
   };
 
   React.useEffect(() => {
-    // Check if any of the default parameters are not present in the URL
     for (const [key, value] of Object.entries(queryParams)) {
       if (!searchParams.has(key)) {
         searchParams.set(key, value);
       }
     }
-    // Update the URL with the default query parameters
+
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
@@ -106,7 +105,7 @@ const ProductsView = () => {
     },
   }));
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
+    color: "black",
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -117,6 +116,11 @@ const ProductsView = () => {
       },
     },
   }));
+
+  const cardBackgroundColor = "#ffffff";
+  const buttonPrimaryBackground = "#FF9900";
+  const buttonSecondaryBackground = "#333";
+
   return (
     <Container maxWidth="lg">
       <br />
@@ -139,8 +143,8 @@ const ProductsView = () => {
         {data.map((result, index) => (
           <Grid item xs={12} sm={4} ms={4} key={index}>
             <Card
-              sx={{ maxWidth: 345 }}
-              style={{ padding: "10xp", marginBottom: "30px" }}
+              sx={{ maxWidth: 345, backgroundColor: cardBackgroundColor }}
+              style={{ padding: "10px", marginBottom: "30px" }}
             >
               <CardActionArea>
                 <CardMedia
@@ -155,7 +159,7 @@ const ProductsView = () => {
                     {result.name}
                   </Typography>
                   <Typography gutterBottom variant="h5" component="div">
-                    Price:${result.price}
+                    Price: ${result.price}
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -168,7 +172,11 @@ const ProductsView = () => {
                       onClick={() => {
                         navigate(`/product/${result.id}`);
                       }}
-                      sx={{ marginLeft: "10px" }}
+                      sx={{
+                        marginLeft: "10px",
+                        backgroundColor: buttonPrimaryBackground,
+                        color: "white",
+                      }}
                     >
                       View Details
                     </Button>
@@ -182,7 +190,11 @@ const ProductsView = () => {
                           onClick={() => {
                             addProduct(index);
                           }}
-                          sx={{ marginRight: "10px" }}
+                          sx={{
+                            marginRight: "10px",
+                            backgroundColor: buttonSecondaryBackground,
+                            color: "white",
+                          }}
                         >
                           Add to Cart
                         </Button>
@@ -213,4 +225,3 @@ const ProductsView = () => {
 };
 
 export default ProductsView;
-

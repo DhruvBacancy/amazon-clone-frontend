@@ -15,7 +15,6 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { AuthContextExport } from "../../util/context/AuthContext";
 import { useDispatch } from "react-redux";
-import { getCart } from "../../util/redux/actions/actions";
 import { fetchCartApi } from "../../util/redux/reducers/CartApi";
 
 const Login = () => {
@@ -51,6 +50,11 @@ const Login = () => {
             navigate("/");
           }, 1000);
         }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        alert("Login failed. Navigating to home");
+        navigate("/");
       });
   };
   return (

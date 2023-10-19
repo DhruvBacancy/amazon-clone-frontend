@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContextExport } from "../../util/context/AuthContext";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { emptyCart } from "../../util/redux/actions/actions";
 
 const Logout = () => {
@@ -12,6 +12,7 @@ const Logout = () => {
     logout();
     localStorage.removeItem("token");
     dispatch(emptyCart());
+    alert("Logout successful. Naviagte to home");
     navigate("/");
   }, []);
 };

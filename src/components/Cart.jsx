@@ -62,8 +62,14 @@ const Cart = () => {
     });
   };
 
+  const backgroundColor = "#fff";
+  const textColor = "#333";
+  const primaryButtonColor = "#FF9900";
+  const secondaryButtonColor = "#444";
+  const separatorColor = "#ccc";
+
   return (
-    <>
+    <div style={{ backgroundColor }}>
       <Button
         variant="contained"
         color="secondary"
@@ -74,6 +80,7 @@ const Cart = () => {
           }
         }}
         sx={{ marginTop: "20px", marginLeft: "20px" }}
+        style={{ backgroundColor: secondaryButtonColor, color: "#fff" }}
       >
         Clear Cart
       </Button>
@@ -86,7 +93,7 @@ const Cart = () => {
       ) : (
         <>
           <div style={{ padding: "20px" }}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ color: textColor }}>
               Shopping Cart
             </Typography>
             {cartItems.map((item, index) => (
@@ -123,11 +130,13 @@ const Cart = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Typography variant="h6">{item.product_name}</Typography>
-                    <Typography variant="body1">
+                    <Typography variant="h6" style={{ color: textColor }}>
+                      {item.product_name}
+                    </Typography>
+                    <Typography variant="body1" style={{ color: textColor }}>
                       Quantity: {item.quantity}
                     </Typography>
-                    <Typography variant="h6">
+                    <Typography variant="h6" style={{ color: textColor }}>
                       $ {item.price_per_unit}
                     </Typography>
                     <div>
@@ -170,6 +179,10 @@ const Cart = () => {
                       onClick={() => {
                         dispatch(removeProduct(item.product_id));
                       }}
+                      style={{
+                        backgroundColor: secondaryButtonColor,
+                        color: "#fff",
+                      }}
                     >
                       Remove
                     </Button>
@@ -179,7 +192,7 @@ const Cart = () => {
                   <div
                     style={{
                       width: "100%",
-                      borderBottom: "1px solid #ccc",
+                      borderBottom: `1px solid ${separatorColor}`,
                       margin: "10px 0",
                     }}
                   />
@@ -188,14 +201,14 @@ const Cart = () => {
             ))}
             <div className="align-center">
               <div style={{ marginTop: "20px" }}>
-                <Typography variant="h6">
+                <Typography variant="h6" style={{ color: textColor }}>
                   Total Price: $ {formattedTotal}
                 </Typography>
                 <Button
                   component={Link}
                   to="/"
                   variant="outlined"
-                  color="primary"
+                  style={{ color: textColor }}
                 >
                   Back to Shop
                 </Button>
@@ -203,6 +216,7 @@ const Cart = () => {
                   variant="contained"
                   sx={{ marginLeft: "5px" }}
                   onClick={handleClickOpen}
+                  style={{ backgroundColor: primaryButtonColor, color: "#fff" }}
                 >
                   Checkout
                 </Button>
@@ -221,9 +235,18 @@ const Cart = () => {
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleConfirm} autoFocus>
-                      Confrim
+                    <Button onClick={handleClose} style={{ color: textColor }}>
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleConfirm}
+                      autoFocus
+                      style={{
+                        backgroundColor: primaryButtonColor,
+                        color: "#fff",
+                      }}
+                    >
+                      Confirm
                     </Button>
                   </DialogActions>
                 </Dialog>
@@ -232,7 +255,7 @@ const Cart = () => {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

@@ -26,8 +26,8 @@ function NavigationBar() {
     "& .MuiBadge-badge": {
       right: -3,
       top: 13,
-      border: `px solid ${theme.palette.background.paper}`,
-      padding: "0 px",
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
     },
   }));
   const { token } = AuthContextExport();
@@ -54,10 +54,12 @@ function NavigationBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#131921" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <AdbIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1, color: "white" }}
+          />
           <NavLink to={"./"} className={"a"}>
             <Typography
               variant="h6"
@@ -69,7 +71,7 @@ function NavigationBar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "inherit",
+                color: "white",
                 textDecoration: "none",
               }}
             >
@@ -115,7 +117,9 @@ function NavigationBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <AdbIcon
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1, color: "white" }}
+          />
           <Link to="/" className="a">
             <Typography
               variant="h5"
@@ -128,7 +132,7 @@ function NavigationBar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "inherit",
+                color: "white",
                 textDecoration: "none",
               }}
             >
@@ -157,7 +161,11 @@ function NavigationBar() {
                   <StyledBadge
                     badgeContent={cartData.length}
                     color="secondary"
-                    sx={{ marginRight: "15px", color: "white", size: "15px" }}
+                    sx={{
+                      marginRight: "15px",
+                      color: "white",
+                      fontSize: "15px",
+                    }}
                   >
                     <ShoppingCartIcon />
                   </StyledBadge>
@@ -168,7 +176,7 @@ function NavigationBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="" />
               </IconButton>
             </Tooltip>
             <Menu

@@ -18,27 +18,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 
 const Register = () => {
-  const intialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  };
   const navigate = useNavigate();
   const paperStyle = { padding: "30px 20px", width: 300, margin: "20px auto" };
   const headerStyle = { margin: 0 };
   const avatarStyle = { backgroundColor: "#1bbd7e" };
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
 
   const formOptions = { resolver: yupResolver(userSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
@@ -65,6 +48,8 @@ const Register = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
+        alert("Registartion failed. Navigating to home");
+        navigate("/");
       });
   };
   return (

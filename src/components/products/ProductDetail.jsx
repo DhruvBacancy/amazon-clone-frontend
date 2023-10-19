@@ -6,7 +6,6 @@ import Rating from "@mui/material/Rating";
 import "../../align.css";
 import { AuthContextExport } from "../../util/context/AuthContext";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../util/redux/actions/actions";
 import { addToCartApi } from "../../util/redux/reducers/CartApi";
 
 const ProductDetail = () => {
@@ -78,4 +77,3 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-
