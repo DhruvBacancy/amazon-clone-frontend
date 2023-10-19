@@ -70,20 +70,6 @@ const Cart = () => {
 
   return (
     <div style={{ backgroundColor }}>
-      <Button
-        variant="contained"
-        color="secondary"
-        startIcon={<DeleteIcon />}
-        onClick={() => {
-          if (cartItems.length > 0) {
-            dispatch(emptyAllItems());
-          }
-        }}
-        sx={{ marginTop: "20px", marginLeft: "20px" }}
-        style={{ backgroundColor: secondaryButtonColor, color: "#fff" }}
-      >
-        Clear Cart
-      </Button>
       {cartItems.length === 0 || !cartItems ? (
         <>
           <div className="align-center">
@@ -92,6 +78,20 @@ const Cart = () => {
         </>
       ) : (
         <>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={() => {
+              if (cartItems.length > 0) {
+                dispatch(emptyAllItems());
+              }
+            }}
+            sx={{ marginTop: "20px", marginLeft: "20px" }}
+            style={{ backgroundColor: secondaryButtonColor, color: "#fff" }}
+          >
+            Clear Cart
+          </Button>
           <div style={{ padding: "20px" }}>
             <Typography variant="h4" gutterBottom style={{ color: textColor }}>
               Shopping Cart
